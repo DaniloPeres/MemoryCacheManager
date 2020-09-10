@@ -3,8 +3,6 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MemoryCacheManagerTests
@@ -59,7 +57,6 @@ namespace MemoryCacheManagerTests
             Cache.AddCache(cacheKey, value, parameter1, parameter2);
 
             // Assert
-            Assert.IsFalse(Cache.TryGetCache<int>(cacheKey, out _));
             Assert.IsTrue(Cache.TryGetCache(cacheKey, out int cachedValue, parameter1, parameter2));
             Assert.AreEqual(value, cachedValue);
         }
@@ -75,14 +72,12 @@ namespace MemoryCacheManagerTests
 
             // Act
             Cache.AddCache(cacheKey, value, parameter1, parameter2);
-            Assert.IsFalse(Cache.TryGetCache<int>(cacheKey, out _));
             Assert.IsTrue(Cache.TryGetCache(cacheKey, out int cachedValue, parameter1, parameter2));
             Assert.AreEqual(value, cachedValue);
 
             // Update
             value = 321;
             Cache.AddCache(cacheKey, value, parameter1, parameter2);
-            Assert.IsFalse(Cache.TryGetCache<int>(cacheKey, out _));
             Assert.IsTrue(Cache.TryGetCache(cacheKey, out cachedValue, parameter1, parameter2));
             Assert.AreEqual(value, cachedValue);
         }
@@ -164,9 +159,10 @@ namespace MemoryCacheManagerTests
             // Arrange
             const string cacheKey = "MyCache";
             const int value = 123;
+            var expirationTime = new TimeSpan(0, 0, 1);
 
             // Act
-            Cache.AddCacheExpirationTime(cacheKey, value, new TimeSpan(0, 0, 1));
+            Cache.AddCacheExpirationTime(cacheKey, value, expirationTime);
             Assert.IsTrue(Cache.TryGetCache(cacheKey, out int cachedValue));
             Assert.AreEqual(value, cachedValue);
 
@@ -213,7 +209,7 @@ namespace MemoryCacheManagerTests
             Cache.RemoveCache(cacheKey);
 
             // Assert
-            Assert.IsTrue(Cache.TryGetCache<int>(cacheKey, out _));
+            Assert.IsFalse(Cache.TryGetCache<int>(cacheKey, out _));
         }
     }
 }

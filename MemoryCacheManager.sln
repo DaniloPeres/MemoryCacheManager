@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryCacheManager", "MemoryCacheManager\MemoryCacheManager.csproj", "{4F86F573-D077-43FA-9533-370C1336EE50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemoryCacheManager", "MemoryCacheManager\MemoryCacheManager.csproj", "{4F86F573-D077-43FA-9533-370C1336EE50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryCacheManagerTests", "MemoryCacheManagerTests\MemoryCacheManagerTests.csproj", "{23C5A0A2-EE0A-449F-AA0D-B042E0D8AF2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemoryCacheManagerTests", "MemoryCacheManagerTests\MemoryCacheManagerTests.csproj", "{23C5A0A2-EE0A-449F-AA0D-B042E0D8AF2E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F26CB2C0-6174-4F9C-A818-BED5A8D67A2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +26,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{23C5A0A2-EE0A-449F-AA0D-B042E0D8AF2E} = {F26CB2C0-6174-4F9C-A818-BED5A8D67A2E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3B92BE95-E76B-4F88-85D3-C17D91A4560F}
