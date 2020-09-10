@@ -2,7 +2,7 @@
 <b>Memory Cache Manager</b> is a multi-thread safe caching mechanims
 
 ## Nuget package
-There is a nuget package avaliable here .
+There is a nuget package avaliable here https://www.nuget.org/packages/MemoryCacheManager/.
 
 # Examples
 
