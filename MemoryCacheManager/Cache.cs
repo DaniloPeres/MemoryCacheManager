@@ -119,19 +119,18 @@ namespace MemoryCacheManager
         {
             lock(memoryCache)
             {
-                memoryCache.Keys.ToList().ForEach(key =>
+                foreach (var pair in memoryCache) 
                 {
-                    var items = memoryCache[key];
-                    var itemsKeep = items.ToList().Where(item => !IsExpired(item));
+                    var itemsKeep = pair.Value.ToList().Where(item => !IsExpired(item)).ToList();
                     if(itemsKeep.Any())
                     {
-                        memoryCache[key] = new ConcurrentBag<StoragedCache>(itemsKeep);
+                        memoryCache[pair.Key] = new ConcurrentBag<StoragedCache>(itemsKeep);
                     } else
                     {
                         // Remove all items, remove cache
-                        memoryCache.TryRemove(key, out var itemOutput);
+                        memoryCache.TryRemove(pair.Key, out _);
                     }
-                });
+                }
             }
         }
 
