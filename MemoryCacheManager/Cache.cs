@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace MemoryCacheManager
 {
@@ -70,26 +70,28 @@ namespace MemoryCacheManager
             return GetCacheOrRunAndCacheWithExpirationTime<T>(key, default, runner, parameters);
         }
 
+        public static Task<T> GetCacheOrRunAndCacheAsync<T>(string key, Func<Task<T>> runner, params object[] parameters)
+        {
+            return GetCacheOrRunAndCacheWithExpirationTimeAsync<T>(key, default, runner, parameters);
+        }
+
         public static T GetCacheOrRunAndCacheWithExpirationTime<T>(string key, TimeSpan expirationTime, Func<T> runner, params object[] parameters)
         {
             if (TryGetCache<T>(key, out var value, parameters))
                 return value;
 
             value = runner();
+            AddCacheExpirationTime(key, value, expirationTime, parameters);
+            return value;
+        }
 
-            if (!memoryCache.TryGetValue(key, out var cacheItems))
-            {
-                cacheItems = new ConcurrentBag<StoragedCache>();
-                memoryCache.TryAdd(key, cacheItems);
-            }
+        public static async Task<T> GetCacheOrRunAndCacheWithExpirationTimeAsync<T>(string key, TimeSpan expirationTime, Func<Task<T>> runner, params object[] parameters)
+        {
+            if (TryGetCache<T>(key, out var value, parameters))
+                return value;
 
-            cacheItems.Add(new StoragedCache()
-            {
-                Parameters = parameters,
-                Value = value,
-                ExpirationDate = GetExpirationDate(expirationTime)
-            });
-
+            value = await runner().ConfigureAwait(false);
+            AddCacheExpirationTime(key, value, expirationTime, parameters);
             return value;
         }
 

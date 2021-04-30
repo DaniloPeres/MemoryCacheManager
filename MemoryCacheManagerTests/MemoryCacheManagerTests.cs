@@ -196,7 +196,7 @@ namespace MemoryCacheManagerTests
         }
 
         [Test]
-        public void RemoveCache()
+        public void RemoveCacheTest()
         {
             // Arrange
             const string cacheKey = "MyCache";
@@ -210,6 +210,97 @@ namespace MemoryCacheManagerTests
 
             // Assert
             Assert.IsFalse(Cache.TryGetCache<int>(cacheKey, out _));
+        }
+
+        [Test]
+        public void GetCacheOrRunAndCacheTest()
+        {
+            // Arrange
+            const string cacheKey = "MyCacheOrRun";
+            const int value = 123;
+            int valueResult = default;
+            const int runFunctionTimes = 5;
+            bool processed = false;
+
+            // Act
+            for (var i = 0; i < runFunctionTimes; i++)
+            {
+                valueResult = Cache.GetCacheOrRunAndCache(cacheKey, () =>
+                {
+                    if (processed)
+                        Assert.Fail("The runner has been processed 2 times");
+
+                    processed = true;
+                    return value;
+                });
+            }
+
+            // Assert
+            Assert.AreEqual(value, valueResult);
+        }
+
+        [Test]
+        public async Task GetCacheOrRunAndCacheWithExpirationTimeExpiresTime()
+        {
+            // Arrange
+            const string cacheKey = "MyCacheOrRunExpires";
+            const int value = 123;
+            bool processed = false;
+            var expirationTime = new TimeSpan(0, 0, 1);
+
+            // Act
+            var valueResult = Cache.GetCacheOrRunAndCacheWithExpirationTime(cacheKey, expirationTime, () =>
+            {
+                if (processed)
+                    Assert.Fail("The runner has been processed 2 times");
+
+                processed = true;
+                return value;
+            });
+
+            Assert.AreEqual(value, valueResult);
+
+            await Task.Delay(2_000).ConfigureAwait(false);
+
+            processed = false;
+            Cache.GetCacheOrRunAndCacheWithExpirationTime(cacheKey, expirationTime, () =>
+            {
+                processed = true;
+                return value;
+            });
+
+            // Assert
+            Assert.IsTrue(processed);
+        }
+
+        [Test]
+        public async Task GetCacheOrRunAndCacheAsyncTest()
+        {
+            // Arrange
+            const string cacheKey = "MyCacheOrRunAsync";
+            const int value = 123;
+            int valueResult = default;
+            const int runFunctionTimes = 5;
+            bool processed = false;
+
+            // Act
+            for (var i = 0; i < runFunctionTimes; i++)
+            {
+                valueResult = await Cache.GetCacheOrRunAndCacheAsync(cacheKey, async () =>
+                {
+                    if (processed)
+                        Assert.Fail("The runner has been processed 2 times");
+
+                    // used to make this function async with some delay
+                    await Task.Delay(10).ConfigureAwait(false);
+
+                    processed = true;
+                    return value;
+                }).ConfigureAwait(false);
+            }
+
+            // Assert
+            Assert.AreEqual(value, valueResult);
         }
     }
 }

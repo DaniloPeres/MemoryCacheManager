@@ -9,7 +9,7 @@
     <RepositoryUrl>https://github.com/DaniloPeres/MemoryCacheManager</RepositoryUrl>
     <PackageTags>Caching, Memory Cache, Memory Cache Manager, Cache Manager</PackageTags>
     <Description>Memory Cache Manager is a multi-thread safe caching mechanims</Description>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
 </Project>

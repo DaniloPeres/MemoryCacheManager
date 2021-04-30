@@ -65,7 +65,22 @@ public int GetUserId(string userName)
     return Cache.GetCacheOrRunAndCacheWithExpirationTime("UserCache", new TimeSpan(0, 1, 0), () =>
     {
         // This block will run only if there is no cached value
-        // Get User ID by User Name...
+        var userId = new Random().Next();
+        return userId;
+    }, userName);
+}
+```
+
+
+### Async
+
+```csharp
+public async Task<int> GetUserId(string userName)
+{
+    return Cache.GetCacheOrRunAndCacheWithExpirationTimeAsync("UserCache", new TimeSpan(0, 1, 0), async () =>
+    {
+        // This block will run only if there is no cached value
+		// Use any async function ....
         var userId = new Random().Next();
         return userId;
     }, userName);
