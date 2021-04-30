@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -8,7 +7,7 @@ namespace MemoryCacheManager
 {
     public static class Cache
     {
-        private static ConcurrentDictionary<string, ConcurrentBag<StoragedCache>> memoryCache = new ConcurrentDictionary<string, ConcurrentBag<StoragedCache>>();
+        private static readonly ConcurrentDictionary<string, ConcurrentBag<StoragedCache>> memoryCache = new ConcurrentDictionary<string, ConcurrentBag<StoragedCache>>();
 
         public static void AddCache(string key, object value, params object[] parameters)
         {
@@ -62,7 +61,7 @@ namespace MemoryCacheManager
                 return false;
             }
 
-            output = (T)Convert.ChangeType(cache.Value, typeof(T));
+            output = (T)cache.Value;
             return true;
         }
 

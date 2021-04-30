@@ -3,13 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Copyright>Copyright 2020 Danilo Peres</Copyright>
+    <Copyright>Copyright 2021 Danilo Peres</Copyright>
     <Authors>Danilo Peres</Authors>
     <Company>Danilo Peres</Company>
     <RepositoryUrl>https://github.com/DaniloPeres/MemoryCacheManager</RepositoryUrl>
     <PackageTags>Caching, Memory Cache, Memory Cache Manager, Cache Manager</PackageTags>
     <Description>Memory Cache Manager is a multi-thread safe caching mechanims</Description>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
 </Project>
